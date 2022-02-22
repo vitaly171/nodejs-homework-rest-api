@@ -37,13 +37,13 @@ const registerJoiSchema = Joi.object({
 });
 
 const subscriptionJoiSchema = Joi.object({
-  subscription: Joi.boolean().required()
+  subscription: Joi.boolean().required(),
 });
 
 const User = model("user", userSchema);
 const schemas = {
   register: registerJoiSchema,
-  subscription: subscriptionJoiSchema
+  subscription: subscriptionJoiSchema,
 };
 
 module.exports = {

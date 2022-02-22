@@ -7,7 +7,7 @@ const updateSubscriptionUser = async (req, res, next) => {
     if (error) {
       throw new CreateError(400, "Missing field subscription!");
     }
-    const {_id } = req.params;
+    const { _id } = req.params;
 
     const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
     if (!result) {
