@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const { User, schemas } = require("../../models/user");
 const bcrypt = require("bcryptjs");
+const gravatar = require("gravatar");
 
 const signup = async (req, res, next) => {
   try {
@@ -16,9 +17,12 @@ const signup = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
+    const avatarURL = gravatar.url(email);
+
     const result = await User.create({
       email,
       password: hashPassword,
+      avatarURL,
       subscription,
       token,
     });
