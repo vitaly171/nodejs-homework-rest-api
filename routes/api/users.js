@@ -2,11 +2,16 @@ const express = require("express");
 const { authenticate, upload } = require("../../middlewares");
 const ctrl = require("../../controllers/users");
 const router = express.Router();
-const path = require("path");
-const fs = require("fs/promises");
-const { User } = require("../../models/user");
+//const path = require("path");
+//const fs = require("fs/promises");
+//const Joi = require("joi");
+//const { sendMail } = require("../../helpers");
 
 const Jimp = require("jimp");
+
+router.get("/verify/:verificationToken", ctrl.verify);
+
+router.post("/verify", ctrl.sendVerificationMail);
 
 router.post("/signup", ctrl.signup);
 

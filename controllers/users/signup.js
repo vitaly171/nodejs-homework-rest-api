@@ -2,6 +2,8 @@ const createError = require("http-errors");
 const { User, schemas } = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
+const { v4 } = require("uuid");
+const { sendMail } = require("../../helpers");
 
 const signup = async (req, res, next) => {
   try {
@@ -19,13 +21,24 @@ const signup = async (req, res, next) => {
 
     const avatarURL = gravatar.url(email);
 
+    const verificationToken = v4();
+
     const result = await User.create({
       email,
       password: hashPassword,
+      verificationToken,
       avatarURL,
       subscription,
       token,
     });
+
+    const mail = {
+      to: email,
+      subject: "Подтвеждение email",
+      html: `<a target="_blank" href='http://localhost:3000/api/users/${verificationToken}'>Нажмите чтобы подтвердить свой email</a>`,
+    };
+
+    await sendMail(mail);
 
     res.json({
       status: "success",
